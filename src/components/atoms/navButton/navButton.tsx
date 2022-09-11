@@ -1,8 +1,8 @@
 /* eslint-disable consistent-return */
 /* eslint-disable no-param-reassign */
 import React, { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { useSearch } from 'utils/contexts/SearchParams';
 
 const Wrapper = styled.button`
   width: 13ch;
@@ -15,7 +15,7 @@ type NavButtonProps = {
 };
 
 const NavButton: React.FC<NavButtonProps> = ({ name, id }) => {
-  const { setSearchParams, searchParams } = useSearch();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const [rest, setRest] = useState<string[] | null>(null);
 
