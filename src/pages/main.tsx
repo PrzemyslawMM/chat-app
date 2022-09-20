@@ -1,22 +1,42 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import ChatNav from 'components/organisms/chatNav/chatNav';
 import Chat from 'components/organisms/chat/chat';
 import styled from 'styled-components';
 import { useSearchParams } from 'react-router-dom';
+import { getAuth } from 'firebase/auth';
+import Logout from 'components/atoms/Logout/Logout';
+
+type MainPageProps = {
+  myID: string;
+};
 
 const Wrapper = styled.div`
   display: flex;
 `;
 
-export const Main: React.FC<{}> = () => {
+export const Main: React.FC<MainPageProps> = ({ myID }) => {
   const [, setSearchParams] = useSearchParams();
+  const [userID, setUserID] = useState(myID);
 
-  useEffect(() => setSearchParams({ myID: '13154156' }), []);
+  useEffect(() => {
+    if (myID === '') {
+      const auth = getAuth();
+      console.log('test');
+      if (auth.currentUser?.uid) setUserID(auth.currentUser.uid);
+    }
+  });
+
+  useEffect(() => {
+    setSearchParams({ myID: userID });
+  }, [userID]);
 
   return (
-    <Wrapper>
-      <ChatNav />
-      <Chat />
-    </Wrapper>
+    <>
+      <Wrapper>
+        <ChatNav />
+        <Chat />
+      </Wrapper>
+      <Logout />
+    </>
   );
 };

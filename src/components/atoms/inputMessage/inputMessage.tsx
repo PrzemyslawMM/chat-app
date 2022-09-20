@@ -6,8 +6,8 @@ type WrapperProps = {
 };
 
 const Wrapper = styled.div<WrapperProps>`
-  min-width: 300px;
-  max-width: 300px;
+  min-width: 280px;
+  max-width: 280px;
   background-color: #e6e6e6;
   display: block;
 
