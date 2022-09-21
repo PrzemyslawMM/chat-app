@@ -4,6 +4,7 @@ import { Main } from 'pages/main';
 import { initializeApp } from 'firebase/app';
 import Login from 'pages/login';
 import AuthRoute from 'components/templates/AuthRoute';
+import Register from 'pages/register';
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -32,6 +33,7 @@ const App: React.FC<{}> = () => {
       />
 
       <Route path="/login" element={<Login setID={setMyID} />} />
+      <Route path="/register" element={<Register setID={setMyID} />} />
     </Routes>
   );
 };

@@ -1,15 +1,29 @@
-import React, { useState } from 'react';
-import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import { useNavigate } from 'react-router-dom';
+import React, { useRef, useState } from 'react';
+import {
+  getAuth,
+  GoogleAuthProvider,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+} from 'firebase/auth';
+import { Link, useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 
 type LoginProps = {
   setID: React.Dispatch<React.SetStateAction<string>>;
 };
 
+const Wrapper = styled.form`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+`;
+
 const Login: React.FC<LoginProps> = ({ setID }) => {
   const auth = getAuth();
   const navigate = useNavigate();
   const [authing, setAuthing] = useState(false);
+  const email = useRef<HTMLInputElement>(null);
+  const password = useRef<HTMLInputElement>(null);
 
   const signInWithGoogle = async () => {
     setAuthing(true);
@@ -19,13 +33,36 @@ const Login: React.FC<LoginProps> = ({ setID }) => {
         setID(response.user.uid);
         navigate('/');
       })
-      .catch((error) => {
+      .catch(() => {
+        setAuthing(false);
+      });
+  };
+
+  const signIn = async () => {
+    signInWithEmailAndPassword(
+      auth,
+      email.current?.value as string,
+      password.current?.value as string
+    )
+      .then((response) => {
+        setID(response.user.uid);
+        navigate('/');
+      })
+      .catch(() => {
         setAuthing(false);
       });
   };
 
   return (
-    <div>
+    <Wrapper>
+      <input type="email" ref={email} placeholder="Your email" />
+      <input type="password" ref={password} placeholder="Your password" />
+      <button type="button" disabled={authing} onClick={() => signIn()}>
+        Sign in
+      </button>
+      <p>
+        Don&apos;t have account <Link to="/register">create here</Link>
+      </p>
       <button
         type="button"
         onClick={() => signInWithGoogle()}
@@ -33,7 +70,7 @@ const Login: React.FC<LoginProps> = ({ setID }) => {
       >
         Sign in with google
       </button>
-    </div>
+    </Wrapper>
   );
 };
 

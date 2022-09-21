@@ -4,7 +4,7 @@ import Chat from 'components/organisms/chat/chat';
 import styled from 'styled-components';
 import { useSearchParams } from 'react-router-dom';
 import { getAuth } from 'firebase/auth';
-import Logout from 'components/atoms/Logout/Logout';
+import Logout from 'components/atoms/Logout/logout';
 
 type MainPageProps = {
   myID: string;
@@ -21,7 +21,6 @@ export const Main: React.FC<MainPageProps> = ({ myID }) => {
   useEffect(() => {
     if (myID === '') {
       const auth = getAuth();
-      console.log('test');
       if (auth.currentUser?.uid) setUserID(auth.currentUser.uid);
     }
   });
