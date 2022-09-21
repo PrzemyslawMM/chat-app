@@ -20,7 +20,6 @@ const Wrapper = styled.form`
 
 const Register: React.FC<RegisterProps> = ({ setID }) => {
   const email = useRef<HTMLInputElement>(null);
-  const confirmEmail = useRef<HTMLInputElement>(null);
   const password = useRef<HTMLInputElement>(null);
   const confirmPassword = useRef<HTMLInputElement>(null);
   const name = useRef<HTMLInputElement>(null);
@@ -54,19 +53,12 @@ const Register: React.FC<RegisterProps> = ({ setID }) => {
     setRegistering(true);
     if (
       email.current?.value === '' ||
-      confirmEmail.current?.value === '' ||
       name.current?.value === '' ||
       surname.current?.value === '' ||
       password.current?.value === '' ||
       confirmPassword.current?.value === ''
     ) {
       setError('Some inputs are empty');
-      setRegistering(false);
-      return;
-    }
-
-    if (email.current?.value !== confirmEmail.current?.value) {
-      setError('Email and confirm email are not the same');
       setRegistering(false);
       return;
     }
@@ -85,7 +77,6 @@ const Register: React.FC<RegisterProps> = ({ setID }) => {
       <input type="text" placeholder="Your name" ref={name} />
       <input type="text" placeholder="Your surname" ref={surname} />
       <input type="email" placeholder="Your email" ref={email} />
-      <input type="email" placeholder="Confirm your email" ref={confirmEmail} />
       <input type="password" placeholder="Your password" ref={password} />
       <input
         type="password"
