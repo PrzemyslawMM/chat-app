@@ -13,7 +13,7 @@ const Logout: React.FC<LogoutProps> = () => {
   const handleOnClick = () => {
     signOut(auth)
       .then(() => {
-        navigate('/login');
+        navigate('/');
       })
       .catch((e) => {
         setError(true);

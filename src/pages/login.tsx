@@ -31,7 +31,7 @@ const Login: React.FC<LoginProps> = ({ setID }) => {
     signInWithPopup(auth, new GoogleAuthProvider())
       .then((response) => {
         setID(response.user.uid);
-        navigate('/');
+        navigate('/main');
       })
       .catch(() => {
         setAuthing(false);
@@ -46,7 +46,7 @@ const Login: React.FC<LoginProps> = ({ setID }) => {
     )
       .then((response) => {
         setID(response.user.uid);
-        navigate('/');
+        navigate('/main');
       })
       .catch(() => {
         setAuthing(false);

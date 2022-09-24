@@ -6,7 +6,8 @@ import {
   updateProfile,
   User,
 } from 'firebase/auth';
-import { useNavigate } from 'react-router-dom';
+import { getFirestore, collection, addDoc } from 'firebase/firestore';
+import { Link, useNavigate } from 'react-router-dom';
 
 type RegisterProps = {
   setID: React.Dispatch<React.SetStateAction<string>>;
@@ -28,6 +29,7 @@ const Register: React.FC<RegisterProps> = ({ setID }) => {
   const [error, setError] = useState('');
   const auth = getAuth();
   const navigate = useNavigate();
+  const db = getFirestore();
 
   const registerUser = async () => {
     createUserWithEmailAndPassword(
@@ -36,16 +38,18 @@ const Register: React.FC<RegisterProps> = ({ setID }) => {
       password.current?.value as string
     )
       .then(() => {
-        updateProfile(auth.currentUser as User, {
-          displayName: `${name.current?.value} ${surname.current?.value}`,
+        addDoc(collection(db, 'users'), {
+          displayName: `${name.current?.value} ${name.current?.value}`,
+          uid: auth.currentUser?.uid,
         }).then(() => {
           setID(auth.currentUser?.uid as string);
           setRegistering(false);
-          navigate('/');
+          navigate('/main');
         });
       })
-      .catch(() => {
+      .catch((err) => {
         setRegistering(false);
+        console.log(err);
       });
   };
 
@@ -92,6 +96,7 @@ const Register: React.FC<RegisterProps> = ({ setID }) => {
       >
         Click to register
       </button>
+      <Link to="/login">Back to login page</Link>
     </Wrapper>
   );
 };

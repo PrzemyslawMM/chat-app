@@ -24,7 +24,7 @@ const App: React.FC<{}> = () => {
   return (
     <Routes>
       <Route
-        path="/"
+        path="/main"
         element={
           <AuthRoute>
             <Main myID={myID} />
@@ -32,7 +32,7 @@ const App: React.FC<{}> = () => {
         }
       />
 
-      <Route path="/login" element={<Login setID={setMyID} />} />
+      <Route path="/" element={<Login setID={setMyID} />} />
       <Route path="/register" element={<Register setID={setMyID} />} />
     </Routes>
   );

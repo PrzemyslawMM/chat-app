@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import UserSearch from 'components/molecules/userSearch/userSearch';
 import NavButton from 'components/atoms/navButton/navButton';
+import { getFirestore, collection, getDocs } from 'firebase/firestore';
 
 const Wrapper = styled.div`
   display: flex;
@@ -9,37 +10,58 @@ const Wrapper = styled.div`
   align-items: flex-start;
 `;
 
-type ArrayType = { name: String; id: number }[];
-
-const Array: ArrayType = [
-  { name: 'Przemysław Małecki', id: 1 },
-  { name: 'Przemysław Ślusarczyk', id: 2 },
-  { name: 'Przemysław Ślusarczyk Małecki', id: 3 },
-  { name: 'Konrad Machowski', id: 4 },
-  { name: 'Bartosz Wleciał', id: 5 },
-  { name: 'Stanisław Potocki', id: 6 },
-];
+type ArrayType = { displayName: string; uid: string }[];
 
 const ChatNav: React.FC<{}> = () => {
   const [inputValue, setInputValue] = useState('');
-  const [navButton, setNavButton] = useState(Array);
+  const [navArray, setNavArray] = useState<ArrayType>([] as ArrayType);
+  const [cloneArray, setCloneArray] = useState(navArray);
+  const db = getFirestore();
 
-  const filterItems = (array: ArrayType, query: String) =>
-    array.filter((el) => el.name.toLowerCase().includes(query.toLowerCase()));
+  const filterItems = (array: ArrayType, query: string) =>
+    array.filter((el) =>
+      el.displayName.toLowerCase().includes(query.toLowerCase())
+    );
 
   useEffect(() => {
-    if (inputValue === '') setNavButton(Array);
+    if (inputValue === '') setNavArray(cloneArray);
 
-    setNavButton(() => {
-      return filterItems(Array, inputValue);
+    setNavArray((prev) => {
+      return filterItems(prev, inputValue);
     });
   }, [inputValue]);
+
+  const getData = async () => {
+    const querySnapshot = await getDocs(collection(db, 'users'));
+    const array: ArrayType = [];
+
+    await querySnapshot.forEach((doc) => {
+      const data = doc.data();
+
+      array.push(data as { displayName: string; uid: string });
+    });
+
+    setNavArray(array);
+    setCloneArray(array);
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  useEffect(() => {
+    console.log(cloneArray);
+  }, [cloneArray]);
 
   return (
     <Wrapper>
       <UserSearch value={inputValue} setValue={setInputValue} />
-      {navButton.map((element) => (
-        <NavButton name={element.name} id={element.id} key={element.id} />
+      {navArray.map((element) => (
+        <NavButton
+          name={element.displayName}
+          id={element.uid}
+          key={element.uid}
+        />
       ))}
     </Wrapper>
   );

@@ -10,25 +10,18 @@ const Wrapper = styled.button`
 `;
 
 type NavButtonProps = {
-  name: String;
-  id: Number;
+  name: string;
+  id: string;
 };
 
 const NavButton: React.FC<NavButtonProps> = ({ name, id }) => {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [, setSearchParams] = useSearchParams();
 
   const [rest, setRest] = useState<string[] | null>(null);
 
   const handleClick = () => {
-    const myID = searchParams.get('myID');
-
-    if (!myID) {
-      throw new Error('myID is null');
-    }
-
     setSearchParams({
-      myID,
-      id: id.toString(),
+      id,
     });
   };
 

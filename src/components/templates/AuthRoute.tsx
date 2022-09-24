@@ -16,7 +16,7 @@ const AuthRoute: React.FC<AuthRouteProps> = ({ children }) => {
     if (user) {
       setLoading(false);
     } else {
-      navigate('/login');
+      navigate('/');
     }
   });
 
@@ -26,7 +26,8 @@ const AuthRoute: React.FC<AuthRouteProps> = ({ children }) => {
 
   if (loading) return <p>Loading</p>;
 
-  return <div>{children}</div>;
+  // eslint-disable-next-line react/jsx-no-useless-fragment
+  return <>{children}</>;
 };
 
 export default AuthRoute;
