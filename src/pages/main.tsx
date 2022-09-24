@@ -4,9 +4,7 @@ import Chat from 'components/organisms/chat/chat';
 import styled from 'styled-components';
 import Logout from 'components/atoms/Logout/logout';
 
-type MainPageProps = {
-  myID: string;
-};
+type MainPageProps = {};
 
 const Wrapper = styled.div`
   display: flex;

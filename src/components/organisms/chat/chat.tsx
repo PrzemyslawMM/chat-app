@@ -11,8 +11,8 @@ const Wrapper = styled.div`
 const Chat: React.FC<{}> = () => {
   return (
     <Wrapper>
-      <InputMessage />
       <ChatMessage />
+      <InputMessage />
     </Wrapper>
   );
 };

@@ -1,17 +1,10 @@
 import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  updateProfile,
-  User,
-} from 'firebase/auth';
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { getFirestore, collection, addDoc } from 'firebase/firestore';
 import { Link, useNavigate } from 'react-router-dom';
 
-type RegisterProps = {
-  setID: React.Dispatch<React.SetStateAction<string>>;
-};
+type RegisterProps = {};
 
 const Wrapper = styled.form`
   display: flex;
@@ -19,7 +12,7 @@ const Wrapper = styled.form`
   align-items: flex-start;
 `;
 
-const Register: React.FC<RegisterProps> = ({ setID }) => {
+const Register: React.FC<RegisterProps> = () => {
   const email = useRef<HTMLInputElement>(null);
   const password = useRef<HTMLInputElement>(null);
   const confirmPassword = useRef<HTMLInputElement>(null);
@@ -42,7 +35,6 @@ const Register: React.FC<RegisterProps> = ({ setID }) => {
           displayName: `${name.current?.value} ${name.current?.value}`,
           uid: auth.currentUser?.uid,
         }).then(() => {
-          setID(auth.currentUser?.uid as string);
           setRegistering(false);
           navigate('/main');
         });

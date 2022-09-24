@@ -19,21 +19,18 @@ const firebaseConfig = {
 initializeApp(firebaseConfig);
 
 const App: React.FC<{}> = () => {
-  const [myID, setMyID] = useState('');
-
   return (
     <Routes>
       <Route
         path="/main"
         element={
           <AuthRoute>
-            <Main myID={myID} />
+            <Main />
           </AuthRoute>
         }
       />
-
-      <Route path="/" element={<Login setID={setMyID} />} />
-      <Route path="/register" element={<Register setID={setMyID} />} />
+      <Route path="/" element={<Login />} />
+      <Route path="/register" element={<Register />} />
     </Routes>
   );
 };

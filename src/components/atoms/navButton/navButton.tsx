@@ -20,9 +20,7 @@ const NavButton: React.FC<NavButtonProps> = ({ name, id }) => {
   const [rest, setRest] = useState<string[] | null>(null);
 
   const handleClick = () => {
-    setSearchParams({
-      id,
-    });
+    setSearchParams({ id });
   };
 
   const result = name.split(/\s+/);

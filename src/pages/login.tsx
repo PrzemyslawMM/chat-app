@@ -8,9 +8,7 @@ import {
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-type LoginProps = {
-  setID: React.Dispatch<React.SetStateAction<string>>;
-};
+type LoginProps = {};
 
 const Wrapper = styled.form`
   display: flex;
@@ -18,7 +16,7 @@ const Wrapper = styled.form`
   align-items: flex-start;
 `;
 
-const Login: React.FC<LoginProps> = ({ setID }) => {
+const Login: React.FC<LoginProps> = () => {
   const auth = getAuth();
   const navigate = useNavigate();
   const [authing, setAuthing] = useState(false);
@@ -30,7 +28,6 @@ const Login: React.FC<LoginProps> = ({ setID }) => {
 
     signInWithPopup(auth, new GoogleAuthProvider())
       .then((response) => {
-        setID(response.user.uid);
         navigate('/main');
       })
       .catch(() => {
@@ -45,7 +42,6 @@ const Login: React.FC<LoginProps> = ({ setID }) => {
       password.current?.value as string
     )
       .then((response) => {
-        setID(response.user.uid);
         navigate('/main');
       })
       .catch(() => {
