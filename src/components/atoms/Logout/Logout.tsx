@@ -15,13 +15,17 @@ const Logout: React.FC<LogoutProps> = () => {
       .then(() => {
         navigate('/');
       })
-      .catch((e) => {
+      .catch(() => {
         setError(true);
       });
   };
   return (
     <>
       {error ? <p style={{ color: 'red' }}>Somethings wrong</p> : null}
+      <p>
+        Login as:{' '}
+        <span style={{ fontWeight: 800 }}>{auth.currentUser?.displayName}</span>
+      </p>
       <button type="button" onClick={handleOnClick}>
         Click to log out
       </button>

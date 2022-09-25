@@ -1,7 +1,8 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useMemo, useEffect } from 'react';
 import {
   getAuth,
   GoogleAuthProvider,
+  onAuthStateChanged,
   signInWithEmailAndPassword,
   signInWithPopup,
 } from 'firebase/auth';
@@ -23,17 +24,29 @@ const Login: React.FC<LoginProps> = () => {
   const email = useRef<HTMLInputElement>(null);
   const password = useRef<HTMLInputElement>(null);
 
-  const signInWithGoogle = async () => {
-    setAuthing(true);
-
-    signInWithPopup(auth, new GoogleAuthProvider())
-      .then((response) => {
+  const AuthCheck = useMemo(() => {
+    return onAuthStateChanged(auth, (user) => {
+      if (user) {
         navigate('/main');
-      })
-      .catch(() => {
-        setAuthing(false);
-      });
-  };
+      }
+    });
+  }, [auth]);
+
+  useEffect(() => {
+    AuthCheck();
+  }, [auth]);
+
+  // const signInWithGoogle = async () => {
+  //   setAuthing(true);
+
+  //   signInWithPopup(auth, new GoogleAuthProvider())
+  //     .then((response) => {
+  //       navigate('/main');
+  //     })
+  //     .catch(() => {
+  //       setAuthing(false);
+  //     });
+  // };
 
   const signIn = async () => {
     signInWithEmailAndPassword(
@@ -41,7 +54,7 @@ const Login: React.FC<LoginProps> = () => {
       email.current?.value as string,
       password.current?.value as string
     )
-      .then((response) => {
+      .then(() => {
         navigate('/main');
       })
       .catch(() => {
@@ -59,13 +72,13 @@ const Login: React.FC<LoginProps> = () => {
       <p>
         Don&apos;t have account <Link to="/register">create here</Link>
       </p>
-      <button
+      {/* <button
         type="button"
         onClick={() => signInWithGoogle()}
         disabled={authing}
       >
         Sign in with google
-      </button>
+      </button> */}
     </Wrapper>
   );
 };

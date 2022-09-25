@@ -1,6 +1,10 @@
 import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  updateProfile,
+} from 'firebase/auth';
 import { getFirestore, collection, addDoc } from 'firebase/firestore';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -32,16 +36,24 @@ const Register: React.FC<RegisterProps> = () => {
     )
       .then(() => {
         addDoc(collection(db, 'users'), {
-          displayName: `${name.current?.value} ${name.current?.value}`,
+          displayName: `${name.current?.value} ${surname.current?.value}`,
           uid: auth.currentUser?.uid,
         }).then(() => {
           setRegistering(false);
+          if (!auth.currentUser) throw new Error('Some problem with server');
+          updateProfile(auth.currentUser, {
+            displayName: `${name.current?.value} ${surname.current?.value}`,
+          });
           navigate('/main');
         });
       })
       .catch((err) => {
         setRegistering(false);
-        console.log(err);
+        setError(() =>
+          err.code === 'auth/email-already-in-use'
+            ? 'Email is in use'
+            : 'Somethings wrong with servers'
+        );
       });
   };
 
@@ -88,7 +100,7 @@ const Register: React.FC<RegisterProps> = () => {
       >
         Click to register
       </button>
-      <Link to="/login">Back to login page</Link>
+      <Link to="/">Back to login page</Link>
     </Wrapper>
   );
 };
