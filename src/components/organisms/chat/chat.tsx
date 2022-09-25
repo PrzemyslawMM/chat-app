@@ -24,9 +24,10 @@ const Chat: React.FC<{}> = () => {
   const [value] = useCollectionData(queryRef, {
     snapshotListenOptions: { includeMetadataChanges: true },
   });
+
   return (
     <Wrapper>
-      {!value ? (
+      {value?.length === 0 || !value ? (
         <p>Welcome on chat! Type for new message</p>
       ) : (
         value.map((values) => (

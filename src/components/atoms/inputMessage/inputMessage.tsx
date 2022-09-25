@@ -115,7 +115,7 @@ const inputMessage: React.FC<{}> = () => {
       </InputMessage>
       <SendButton
         color="secondary"
-        variant="outlined"
+        variant="text"
         size="small"
         onClick={handleOnClick}
       >

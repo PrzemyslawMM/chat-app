@@ -8,6 +8,7 @@ import {
 } from 'firebase/auth';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { addDoc, collection, getFirestore } from 'firebase/firestore';
 
 type LoginProps = {};
 
@@ -23,6 +24,7 @@ const Login: React.FC<LoginProps> = () => {
   const [authing, setAuthing] = useState(false);
   const email = useRef<HTMLInputElement>(null);
   const password = useRef<HTMLInputElement>(null);
+  const db = getFirestore();
 
   const AuthCheck = useMemo(() => {
     return onAuthStateChanged(auth, (user) => {
@@ -36,17 +38,22 @@ const Login: React.FC<LoginProps> = () => {
     AuthCheck();
   }, [auth]);
 
-  // const signInWithGoogle = async () => {
-  //   setAuthing(true);
+  const signInWithGoogle = async () => {
+    setAuthing(true);
 
-  //   signInWithPopup(auth, new GoogleAuthProvider())
-  //     .then((response) => {
-  //       navigate('/main');
-  //     })
-  //     .catch(() => {
-  //       setAuthing(false);
-  //     });
-  // };
+    signInWithPopup(auth, new GoogleAuthProvider())
+      .then((response) => {
+        addDoc(collection(db, 'users'), {
+          displayName: response.user.displayName,
+          uid: response.user.uid,
+        }).then(() => {
+          navigate('/main');
+        });
+      })
+      .catch(() => {
+        setAuthing(false);
+      });
+  };
 
   const signIn = async () => {
     signInWithEmailAndPassword(
@@ -72,13 +79,13 @@ const Login: React.FC<LoginProps> = () => {
       <p>
         Don&apos;t have account <Link to="/register">create here</Link>
       </p>
-      {/* <button
+      <button
         type="button"
         onClick={() => signInWithGoogle()}
         disabled={authing}
       >
         Sign in with google
-      </button> */}
+      </button>
     </Wrapper>
   );
 };

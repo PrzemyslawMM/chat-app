@@ -1,8 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import { getAuth } from 'firebase/auth';
-import { useCollectionData } from 'react-firebase-hooks/firestore';
-import { collection, getFirestore } from 'firebase/firestore';
 
 type ChatMessageProps = {
   message: string;
