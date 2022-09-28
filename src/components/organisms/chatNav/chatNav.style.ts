@@ -7,13 +7,21 @@ type NavWrapperProps = {
 export const Wrapper = styled.nav`
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   position: absolute;
 `;
 
 export const NavWrapper = styled.div<NavWrapperProps>`
-  display: ${({ visible }) => (visible ? 'flex' : 'none')};
+  display: flex;
   justify-content: center;
   align-items: center;
   background-color: #fff;
+  position: absolute;
+  transition: transform 0.5s ease-in-out;
+  transform: ${({ visible }) =>
+    visible ? 'translateX(0)' : 'translateX(-100%)'};
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
 `;

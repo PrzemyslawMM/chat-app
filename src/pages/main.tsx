@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import ChatNav from 'components/organisms/chatNav/chatNav';
 import Chat from 'components/organisms/chat/chat';
 import { useSearchParams } from 'react-router-dom';
@@ -9,6 +9,7 @@ type MainPageProps = {};
 
 export const Main: React.FC<MainPageProps> = () => {
   const [params, setParams] = useSearchParams();
+  const [hamburgerActive, setHamburgerActive] = useState(false);
   const auth = getAuth();
 
   useEffect(() => {
@@ -19,7 +20,10 @@ export const Main: React.FC<MainPageProps> = () => {
 
   return (
     <Wrapper>
-      <ChatNav />
+      <ChatNav
+        hamburgerActive={hamburgerActive}
+        setHamburgerActive={setHamburgerActive}
+      />
       <Chat />
     </Wrapper>
   );

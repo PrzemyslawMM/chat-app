@@ -8,4 +8,17 @@ export const Wrapper = styled.div`
 export const MessagesWrapper = styled.div`
   height: calc(100vh - 50px);
   overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px white;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: darkgrey;
+    outline: 1px solid slategrey;
+  }
 `;

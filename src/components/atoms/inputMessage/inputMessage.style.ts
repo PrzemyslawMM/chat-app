@@ -28,4 +28,5 @@ export const Wrapper = styled.div`
 
 export const SendButton = styled(Button)`
   align-self: flex-end;
+  z-index: -1;
 `;

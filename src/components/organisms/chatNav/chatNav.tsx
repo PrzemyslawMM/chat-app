@@ -9,11 +9,19 @@ import { NavWrapper, Wrapper } from './chatNav.style';
 
 type ArrayType = { displayName: string; uid: string }[];
 
-const ChatNav: React.FC<{}> = () => {
+type ChatNavProps = {
+  hamburgerActive: boolean;
+  setHamburgerActive: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+const ChatNav: React.FC<ChatNavProps> = ({
+  hamburgerActive,
+  setHamburgerActive,
+}) => {
   const [inputValue, setInputValue] = useState('');
   const [navArray, setNavArray] = useState<ArrayType>([] as ArrayType);
   const [cloneArray, setCloneArray] = useState(navArray);
-  const [hamburgerActive, setHamburgerActive] = useState(false);
+
   const db = getFirestore();
   const [users] = useCollectionData(collection(db, 'users'), {
     snapshotListenOptions: { includeMetadataChanges: true },
@@ -49,7 +57,7 @@ const ChatNav: React.FC<{}> = () => {
   return (
     <Wrapper>
       <IconButton
-        style={{ width: '30px' }}
+        style={{ width: '30px', zIndex: '10000' }}
         onClick={() => {
           setHamburgerActive((prev) => !prev);
         }}

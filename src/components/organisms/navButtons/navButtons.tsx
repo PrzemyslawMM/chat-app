@@ -20,14 +20,16 @@ const navButtons: React.FC<NavButtonsProps> = ({
   return (
     <Wrapper>
       <UserSearch value={inputValue} setValue={setInputValue} />
-      {navArray.map((element) => (
-        <NavButton
-          name={element.displayName}
-          id={element.uid}
-          key={element.uid}
-          setHamburgerActive={setHamburgerActive}
-        />
-      ))}
+      <Wrapper style={{ maxHeight: '358px', overflowY: 'auto' }}>
+        {navArray.map((element) => (
+          <NavButton
+            name={element.displayName}
+            id={element.uid}
+            key={element.uid}
+            setHamburgerActive={setHamburgerActive}
+          />
+        ))}
+      </Wrapper>
       <Logout />
     </Wrapper>
   );

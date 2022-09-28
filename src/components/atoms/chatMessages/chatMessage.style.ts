@@ -20,14 +20,14 @@ export const Wrapper = styled.div<WrapperProps>`
   justify-content: ${({ myID, id }) =>
     myID === id ? 'flex-end' : 'flex-start'};
 
-  & > p {
-    max-width: 200px;
+  & p {
+    max-width: 40vw;
     word-wrap: break-word;
   }
 `;
 
 export const WrapperMessage = styled.div<WrapperMessageProps>`
-  background-color: ${({ myID, id }) => (myID === id ? '#ccc' : '#cdc')};
+  background-color: ${({ myID, id }) => (myID === id ? '#ccc' : '#7fd1ae')};
   padding: 15px 15px;
   border-radius: 360px;
 `;
