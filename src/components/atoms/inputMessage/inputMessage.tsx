@@ -35,6 +35,9 @@ const inputMessage: React.FC<{}> = () => {
 
     setValue(InputRef.current.innerText);
     InputRef.current.innerText = '';
+
+    setShowBefore(true);
+    InputRef.current.blur();
   };
 
   const handleBlur = (e: React.FocusEvent<HTMLDivElement, Element>) => {

@@ -9,17 +9,12 @@ import { NavWrapper, Wrapper } from './chatNav.style';
 
 type ArrayType = { displayName: string; uid: string }[];
 
-type ChatNavProps = {
-  hamburgerActive: boolean;
-  setHamburgerActive: React.Dispatch<React.SetStateAction<boolean>>;
-};
+type ChatNavProps = {};
 
-const ChatNav: React.FC<ChatNavProps> = ({
-  hamburgerActive,
-  setHamburgerActive,
-}) => {
+const ChatNav: React.FC<ChatNavProps> = () => {
   const [inputValue, setInputValue] = useState('');
   const [navArray, setNavArray] = useState<ArrayType>([] as ArrayType);
+  const [hamburgerActive, setHamburgerActive] = useState(false);
   const [cloneArray, setCloneArray] = useState(navArray);
 
   const db = getFirestore();

@@ -9,7 +9,7 @@ type MainPageProps = {};
 
 export const Main: React.FC<MainPageProps> = () => {
   const [params, setParams] = useSearchParams();
-  const [hamburgerActive, setHamburgerActive] = useState(false);
+
   const auth = getAuth();
 
   useEffect(() => {
@@ -20,10 +20,7 @@ export const Main: React.FC<MainPageProps> = () => {
 
   return (
     <Wrapper>
-      <ChatNav
-        hamburgerActive={hamburgerActive}
-        setHamburgerActive={setHamburgerActive}
-      />
+      <ChatNav />
       <Chat />
     </Wrapper>
   );

@@ -9,6 +9,7 @@ export const Wrapper = styled.nav`
   flex-direction: column;
   align-items: center;
   position: absolute;
+  z-index: 15;
 `;
 
 export const NavWrapper = styled.div<NavWrapperProps>`
