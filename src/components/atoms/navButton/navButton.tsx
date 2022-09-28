@@ -2,25 +2,26 @@
 /* eslint-disable no-param-reassign */
 import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import styled from 'styled-components';
-
-const Wrapper = styled.button`
-  width: 13ch;
-  max-width: 13ch;
-`;
+import { Wrapper } from './navButton.style';
 
 type NavButtonProps = {
   name: string;
   id: string;
+  setHamburgerActive: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const NavButton: React.FC<NavButtonProps> = ({ name, id }) => {
+const NavButton: React.FC<NavButtonProps> = ({
+  name,
+  id,
+  setHamburgerActive,
+}) => {
   const [, setSearchParams] = useSearchParams();
 
   const [rest, setRest] = useState<string[] | null>(null);
 
   const handleClick = () => {
     setSearchParams({ id });
+    setHamburgerActive(false);
   };
 
   const result = name.split(/\s+/);
@@ -40,7 +41,11 @@ const NavButton: React.FC<NavButtonProps> = ({ name, id }) => {
   }, []);
 
   return (
-    <Wrapper type="button" onClick={handleClick}>
+    <Wrapper
+      type="button"
+      onClick={handleClick}
+      style={{ display: 'inline-block' }}
+    >
       <p>{result[0]}</p>
       {rest ? (
         // eslint-disable-next-line react/no-array-index-key

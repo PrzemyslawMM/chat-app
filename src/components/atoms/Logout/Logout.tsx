@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { getAuth, signOut } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
+import Button from '@mui/material/Button';
+import { LogoutWrapper, NameDisplay, Wrapper } from './logout.style';
 
 type LogoutProps = {};
 
@@ -20,16 +22,16 @@ const Logout: React.FC<LogoutProps> = () => {
       });
   };
   return (
-    <>
+    <Wrapper>
       {error ? <p style={{ color: 'red' }}>Somethings wrong</p> : null}
-      <p>
-        Login as:{' '}
-        <span style={{ fontWeight: 800 }}>{auth.currentUser?.displayName}</span>
-      </p>
-      <button type="button" onClick={handleOnClick}>
+      <LogoutWrapper>
+        Login as:
+        <NameDisplay>{auth.currentUser?.displayName}</NameDisplay>
+      </LogoutWrapper>
+      <Button type="button" onClick={handleOnClick}>
         Click to log out
-      </button>
-    </>
+      </Button>
+    </Wrapper>
   );
 };
 

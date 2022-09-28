@@ -1,16 +1,11 @@
 import React, { useEffect } from 'react';
 import ChatNav from 'components/organisms/chatNav/chatNav';
 import Chat from 'components/organisms/chat/chat';
-import styled from 'styled-components';
-import Logout from 'components/atoms/Logout/logout';
 import { useSearchParams } from 'react-router-dom';
 import { getAuth } from 'firebase/auth';
+import { Wrapper } from './main.style';
 
 type MainPageProps = {};
-
-const Wrapper = styled.div`
-  display: flex;
-`;
 
 export const Main: React.FC<MainPageProps> = () => {
   const [params, setParams] = useSearchParams();
@@ -23,12 +18,9 @@ export const Main: React.FC<MainPageProps> = () => {
   }, []);
 
   return (
-    <>
-      <Wrapper>
-        <ChatNav />
-        <Chat />
-      </Wrapper>
-      <Logout />
-    </>
+    <Wrapper>
+      <ChatNav />
+      <Chat />
+    </Wrapper>
   );
 };

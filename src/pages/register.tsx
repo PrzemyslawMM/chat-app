@@ -1,5 +1,4 @@
 import React, { useRef, useState } from 'react';
-import styled from 'styled-components';
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -7,14 +6,10 @@ import {
 } from 'firebase/auth';
 import { getFirestore, collection, addDoc } from 'firebase/firestore';
 import { Link, useNavigate } from 'react-router-dom';
+import { Button, TextField } from '@mui/material';
+import { Wrapper } from './register.style';
 
 type RegisterProps = {};
-
-const Wrapper = styled.form`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-`;
 
 const Register: React.FC<RegisterProps> = () => {
   const email = useRef<HTMLInputElement>(null);
@@ -31,18 +26,22 @@ const Register: React.FC<RegisterProps> = () => {
   const registerUser = async () => {
     createUserWithEmailAndPassword(
       auth,
-      email.current?.value as string,
-      password.current?.value as string
+      email.current?.querySelector('input')?.value as string,
+      password.current?.querySelector('input')?.value as string
     )
       .then(() => {
         addDoc(collection(db, 'users'), {
-          displayName: `${name.current?.value} ${surname.current?.value}`,
+          displayName: `${name.current?.querySelector('input')?.value} ${
+            surname.current?.querySelector('input')?.value
+          }`,
           uid: auth.currentUser?.uid,
         }).then(() => {
           setRegistering(false);
           if (!auth.currentUser) throw new Error('Some problem with server');
           updateProfile(auth.currentUser, {
-            displayName: `${name.current?.value} ${surname.current?.value}`,
+            displayName: `${name.current?.querySelector('input')?.value} ${
+              surname.current?.querySelector('input')?.value
+            }`,
           });
           navigate('/main');
         });
@@ -60,18 +59,21 @@ const Register: React.FC<RegisterProps> = () => {
   const checkInputs = async () => {
     setRegistering(true);
     if (
-      email.current?.value === '' ||
-      name.current?.value === '' ||
-      surname.current?.value === '' ||
-      password.current?.value === '' ||
-      confirmPassword.current?.value === ''
+      email.current?.querySelector('input')?.value === '' ||
+      name.current?.querySelector('input')?.value === '' ||
+      surname.current?.querySelector('input')?.value === '' ||
+      password.current?.querySelector('input')?.value === '' ||
+      confirmPassword.current?.querySelector('input')?.value === ''
     ) {
       setError('Some inputs are empty');
       setRegistering(false);
       return;
     }
 
-    if (password.current?.value !== confirmPassword.current?.value) {
+    if (
+      password.current?.querySelector('input')?.value !==
+      confirmPassword.current?.querySelector('input')?.value
+    ) {
       setError('Password and confirm password are not the same');
       setRegistering(false);
       return;
@@ -80,26 +82,31 @@ const Register: React.FC<RegisterProps> = () => {
   };
 
   return (
-    <Wrapper>
-      <p style={{ color: 'red' }}>{error}</p>
-      <input type="text" placeholder="Your name" ref={name} />
-      <input type="text" placeholder="Your surname" ref={surname} />
-      <input type="email" placeholder="Your email" ref={email} />
-      <input type="password" placeholder="Your password" ref={password} />
-      <input
-        type="password"
-        placeholder="Confirm your password"
-        ref={confirmPassword}
+    <Wrapper autoComplete="off">
+      <TextField type="text" label="Your name" ref={name} margin="dense" />
+      <TextField
+        type="text"
+        label="Your surname"
+        ref={surname}
+        margin="dense"
       />
-      <button
-        type="button"
-        disabled={registering}
-        onClick={() => {
-          checkInputs();
-        }}
-      >
+      <TextField type="email" label="Your email" ref={email} margin="dense" />
+      <TextField
+        type="password"
+        label="Your password"
+        ref={password}
+        margin="dense"
+      />
+      <TextField
+        type="password"
+        label="Confirm your password"
+        ref={confirmPassword}
+        margin="dense"
+      />
+      <p style={{ color: 'red' }}>{error}</p>
+      <Button type="button" disabled={registering} onClick={checkInputs}>
         Click to register
-      </button>
+      </Button>
       <Link to="/">Back to login page</Link>
     </Wrapper>
   );

@@ -1,21 +1,17 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import InputMessage from 'components/atoms/inputMessage/inputMessage';
-import styled from 'styled-components';
 import ChatMessage from 'components/atoms/chatMessages/chatMessage';
 import { collection, getFirestore, orderBy, query } from 'firebase/firestore';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 import { getAuth } from 'firebase/auth';
 import { useSearchParams } from 'react-router-dom';
-
-const Wrapper = styled.div`
-  width: 100%;
-  height: 100%;
-`;
+import { MessagesWrapper, Wrapper } from './chat.style';
 
 const Chat: React.FC<{}> = () => {
   const auth = getAuth();
   const db = getFirestore();
   const [params] = useSearchParams();
+  const dummyRef = useRef<HTMLDivElement>(null);
   const messagesRef = collection(
     db,
     `${auth.currentUser?.uid}-${params.get('id')}`
@@ -25,15 +21,24 @@ const Chat: React.FC<{}> = () => {
     snapshotListenOptions: { includeMetadataChanges: true },
   });
 
+  useEffect(() => {
+    dummyRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [value]);
+
   return (
-    <Wrapper>
-      {value?.length === 0 || !value ? (
-        <p>Welcome on chat! Type for new message</p>
-      ) : (
-        value.map((values) => (
-          <ChatMessage id={values.id} message={values.text} />
-        ))
-      )}
+    <Wrapper style={{ marginLeft: '30px' }}>
+      <MessagesWrapper>
+        {value?.length === 0 || !value ? (
+          <p style={{ justifyContent: 'center', display: 'flex' }}>
+            Welcome on chat! Type for new message
+          </p>
+        ) : (
+          value.map((values) => (
+            <ChatMessage id={values.id} message={values.text} />
+          ))
+        )}
+        <div ref={dummyRef} />
+      </MessagesWrapper>
       <InputMessage />
     </Wrapper>
   );

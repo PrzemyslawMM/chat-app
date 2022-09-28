@@ -1,7 +1,5 @@
-import Button from '@mui/material/Button';
 import SendIcon from '@mui/icons-material/Send';
 import React, { useEffect, useRef, useState } from 'react';
-import styled from 'styled-components';
 import {
   addDoc,
   collection,
@@ -10,30 +8,7 @@ import {
 } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 import { useSearchParams } from 'react-router-dom';
-
-type InputMessageProps = {
-  showBefore: Boolean;
-};
-
-const InputMessage = styled.div<InputMessageProps>`
-  min-width: 250px;
-  max-width: 250px;
-  background-color: #e6e6e6;
-  display: block;
-
-  &::before {
-    content: ${({ showBefore }) => (showBefore ? "'Aa'" : "''")};
-    width: 150px;
-    height: 150px;
-    background-color: transparent;
-  }
-`;
-
-const Wrapper = styled.div`
-  position: relative;
-`;
-
-const SendButton = styled(Button)``;
+import { InputMessage, SendButton, Wrapper } from './inputMessage.style';
 
 const inputMessage: React.FC<{}> = () => {
   const [value, setValue] = useState('');

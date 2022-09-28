@@ -1,24 +1,11 @@
 import React from 'react';
-import styled from 'styled-components';
 import { getAuth } from 'firebase/auth';
+import { Wrapper, WrapperMessage } from './chatMessage.style';
 
 type ChatMessageProps = {
   message: string;
   id: string;
 };
-
-type WrapperProps = {
-  myID: string;
-  id: string;
-};
-
-const Wrapper = styled.div<WrapperProps>`
-  min-width: 250px;
-  max-width: 250px;
-  display: flex;
-  justify-content: ${({ myID, id }) =>
-    myID === id ? 'flex-end' : 'flex-start'};
-`;
 
 const chatMessage: React.FC<ChatMessageProps> = ({ id, message }) => {
   const auth = getAuth();
@@ -30,7 +17,9 @@ const chatMessage: React.FC<ChatMessageProps> = ({ id, message }) => {
 
   return (
     <Wrapper myID={uid} id={id}>
-      <p>{message}</p>
+      <WrapperMessage myID={uid} id={id}>
+        <p>{message}</p>
+      </WrapperMessage>
     </Wrapper>
   );
 };

@@ -1,22 +1,15 @@
 import React, { useRef, useState, useMemo, useEffect } from 'react';
 import {
   getAuth,
-  GoogleAuthProvider,
   onAuthStateChanged,
   signInWithEmailAndPassword,
-  signInWithPopup,
 } from 'firebase/auth';
 import { Link, useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
-import { addDoc, collection, getFirestore } from 'firebase/firestore';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import { Wrapper } from './login.style';
 
 type LoginProps = {};
-
-const Wrapper = styled.form`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-`;
 
 const Login: React.FC<LoginProps> = () => {
   const auth = getAuth();
@@ -24,7 +17,6 @@ const Login: React.FC<LoginProps> = () => {
   const [authing, setAuthing] = useState(false);
   const email = useRef<HTMLInputElement>(null);
   const password = useRef<HTMLInputElement>(null);
-  const db = getFirestore();
 
   const AuthCheck = useMemo(() => {
     return onAuthStateChanged(auth, (user) => {
@@ -38,28 +30,11 @@ const Login: React.FC<LoginProps> = () => {
     AuthCheck();
   }, [auth]);
 
-  const signInWithGoogle = async () => {
-    setAuthing(true);
-
-    signInWithPopup(auth, new GoogleAuthProvider())
-      .then((response) => {
-        addDoc(collection(db, 'users'), {
-          displayName: response.user.displayName,
-          uid: response.user.uid,
-        }).then(() => {
-          navigate('/main');
-        });
-      })
-      .catch(() => {
-        setAuthing(false);
-      });
-  };
-
   const signIn = async () => {
     signInWithEmailAndPassword(
       auth,
-      email.current?.value as string,
-      password.current?.value as string
+      email.current?.querySelector('input')?.value as string,
+      password.current?.querySelector('input')?.value as string
     )
       .then(() => {
         navigate('/main');
@@ -70,22 +45,20 @@ const Login: React.FC<LoginProps> = () => {
   };
 
   return (
-    <Wrapper>
-      <input type="email" ref={email} placeholder="Your email" />
-      <input type="password" ref={password} placeholder="Your password" />
-      <button type="button" disabled={authing} onClick={() => signIn()}>
+    <Wrapper autoComplete="off">
+      <TextField type="email" ref={email} label="Your email" margin="normal" />
+      <TextField
+        type="password"
+        ref={password}
+        label="Your password"
+        margin="normal"
+      />
+      <Button type="button" disabled={authing} onClick={() => signIn()}>
         Sign in
-      </button>
+      </Button>
       <p>
         Don&apos;t have account <Link to="/register">create here</Link>
       </p>
-      <button
-        type="button"
-        onClick={() => signInWithGoogle()}
-        disabled={authing}
-      >
-        Sign in with google
-      </button>
     </Wrapper>
   );
 };

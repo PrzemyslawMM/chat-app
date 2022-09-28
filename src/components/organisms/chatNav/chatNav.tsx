@@ -1,15 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import UserSearch from 'components/molecules/userSearch/userSearch';
-import NavButton from 'components/atoms/navButton/navButton';
 import { getFirestore, collection } from 'firebase/firestore';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
-
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-`;
+import { IconButton } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
+import MenuIcon from '@mui/icons-material/Menu';
+import NavButtons from '../navButtons/navButtons';
+import { NavWrapper, Wrapper } from './chatNav.style';
 
 type ArrayType = { displayName: string; uid: string }[];
 
@@ -17,6 +13,8 @@ const ChatNav: React.FC<{}> = () => {
   const [inputValue, setInputValue] = useState('');
   const [navArray, setNavArray] = useState<ArrayType>([] as ArrayType);
   const [cloneArray, setCloneArray] = useState(navArray);
+  // const [width, setWidth] = useState(0);
+  const [hamburgerActive, setHamburgerActive] = useState(false);
   const db = getFirestore();
   const [users] = useCollectionData(collection(db, 'users'), {
     snapshotListenOptions: { includeMetadataChanges: true },
@@ -49,20 +47,24 @@ const ChatNav: React.FC<{}> = () => {
     getData();
   }, [users]);
 
-  // useEffect(() => {
-  //   console.log(cloneArray);
-  // }, [cloneArray]);
-
   return (
     <Wrapper>
-      <UserSearch value={inputValue} setValue={setInputValue} />
-      {navArray.map((element) => (
-        <NavButton
-          name={element.displayName}
-          id={element.uid}
-          key={element.uid}
+      <IconButton
+        style={{ width: '30px' }}
+        onClick={() => {
+          setHamburgerActive((prev) => !prev);
+        }}
+      >
+        {hamburgerActive ? <CloseIcon /> : <MenuIcon />}
+      </IconButton>
+      <NavWrapper visible={hamburgerActive}>
+        <NavButtons
+          navArray={navArray}
+          setInputValue={setInputValue}
+          inputValue={inputValue}
+          setHamburgerActive={setHamburgerActive}
         />
-      ))}
+      </NavWrapper>
     </Wrapper>
   );
 };

@@ -11,6 +11,7 @@ const GlobalStyle = createGlobalStyle`
     font-family: 'Montserrat', sans-serif;
     height: 100vh;
     width: 100vw;
+    overflow-y: hidden;
   }
 `;
 
