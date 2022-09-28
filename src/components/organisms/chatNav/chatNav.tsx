@@ -13,7 +13,6 @@ const ChatNav: React.FC<{}> = () => {
   const [inputValue, setInputValue] = useState('');
   const [navArray, setNavArray] = useState<ArrayType>([] as ArrayType);
   const [cloneArray, setCloneArray] = useState(navArray);
-  // const [width, setWidth] = useState(0);
   const [hamburgerActive, setHamburgerActive] = useState(false);
   const db = getFirestore();
   const [users] = useCollectionData(collection(db, 'users'), {

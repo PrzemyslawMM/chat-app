@@ -18,6 +18,7 @@ const userSearch: React.FC<userSearchProps> = ({ value, setValue }) => {
       onChange={handleOnChange}
       size="small"
       margin="normal"
+      style={{ marginLeft: '3px' }}
     />
   );
 };

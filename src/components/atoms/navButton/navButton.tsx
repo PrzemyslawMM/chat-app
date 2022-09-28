@@ -44,7 +44,9 @@ const NavButton: React.FC<NavButtonProps> = ({
     <Wrapper
       type="button"
       onClick={handleClick}
-      style={{ display: 'inline-block' }}
+      variant="outlined"
+      size="small"
+      style={{ display: 'inline-block', margin: '3px 0 3px 5px' }}
     >
       <p>{result[0]}</p>
       {rest ? (
