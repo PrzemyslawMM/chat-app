@@ -26,8 +26,6 @@ const inputMessage: React.FC<{}> = () => {
         if (!target.innerText) return;
         setValue(target.innerText);
         target.innerText = '';
-        setShowBefore(true);
-        e.currentTarget.blur();
       }
     }
   };
