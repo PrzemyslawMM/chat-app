@@ -81,6 +81,9 @@ const inputMessage: React.FC<{}> = () => {
         onClick={() => {
           setShowBefore(false);
         }}
+        onFocus={() => {
+          setShowBefore(false);
+        }}
         onBlur={handleBlur}
         showBefore={showBefore}
         ref={InputRef}
