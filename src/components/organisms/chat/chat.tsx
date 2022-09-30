@@ -5,7 +5,7 @@ import { collection, getFirestore, orderBy, query } from 'firebase/firestore';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 import { getAuth } from 'firebase/auth';
 import { useSearchParams } from 'react-router-dom';
-import { MessagesWrapper, Wrapper } from './chat.style';
+import { CenteredText, MessagesWrapper, Wrapper } from './chat.style';
 
 const Chat: React.FC<{}> = () => {
   const auth = getAuth();
@@ -29,12 +29,14 @@ const Chat: React.FC<{}> = () => {
     <Wrapper style={{ marginLeft: '30px' }}>
       <MessagesWrapper>
         {value?.length === 0 || !value ? (
-          <p style={{ justifyContent: 'center', display: 'flex' }}>
-            Welcome on chat! Type for new message
-          </p>
+          <CenteredText>Welcome on chat! Type for new message</CenteredText>
         ) : (
           value.map((values) => (
-            <ChatMessage id={values.id} message={values.text} />
+            <ChatMessage
+              id={values.id}
+              message={values.text}
+              key={values.key}
+            />
           ))
         )}
         <div ref={dummyRef} />

@@ -27,6 +27,10 @@ const GlobalStyle = createGlobalStyle`
     background-color: darkgrey;
     outline: 1px solid slategrey;
   }
+  
+  #root {
+    overflow: hidden;
+  }
 `;
 
 export default GlobalStyle;

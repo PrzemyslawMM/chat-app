@@ -22,3 +22,8 @@ export const MessagesWrapper = styled.div`
     outline: 1px solid slategrey;
   }
 `;
+
+export const CenteredText = styled.p`
+  display: flex;
+  justify-content: center;
+`;

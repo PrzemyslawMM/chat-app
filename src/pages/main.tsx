@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import ChatNav from 'components/organisms/chatNav/chatNav';
 import Chat from 'components/organisms/chat/chat';
 import { useSearchParams } from 'react-router-dom';

@@ -15,6 +15,7 @@ const Login: React.FC<LoginProps> = () => {
   const auth = getAuth();
   const navigate = useNavigate();
   const [authing, setAuthing] = useState(false);
+  const [error, setError] = useState('');
   const email = useRef<HTMLInputElement>(null);
   const password = useRef<HTMLInputElement>(null);
 
@@ -39,7 +40,22 @@ const Login: React.FC<LoginProps> = () => {
       .then(() => {
         navigate('/main');
       })
-      .catch(() => {
+      .catch((err) => {
+        setError(() => {
+          if (err.code === 'auth/invalid-email') {
+            return 'Invalid email';
+          }
+
+          if (err.code === 'auth/user-not-found') {
+            return 'Invalid email';
+          }
+
+          if (err.code === 'auth/wrong-password') {
+            return 'Wrong password';
+          }
+
+          return 'Unknown error';
+        });
         setAuthing(false);
       });
   };
@@ -53,6 +69,7 @@ const Login: React.FC<LoginProps> = () => {
         label="Your password"
         margin="normal"
       />
+      <p style={{ color: 'red' }}>{error}</p>
       <Button type="button" disabled={authing} onClick={() => signIn()}>
         Sign in
       </Button>
